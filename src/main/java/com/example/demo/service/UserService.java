@@ -1,9 +1,10 @@
 package com.example.demo.service;
 
-import com.example.demo.pojo.dto.Token;
 import com.example.demo.pojo.dto.User;
 import com.example.demo.pojo.po.Permission;
 import com.example.demo.pojo.po.Role;
+import com.sun.istack.Nullable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,11 +12,14 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    void addRole(Role role);
+    void deletePermission(String id);
 
-    void editRole(Role role);
+    com.example.demo.pojo.dto.Permission addPermission(String name, String resourceType, String permission, @Nullable String parentId);
 
-    void delRole(Long roleId);
+    Role addRole(String name, String description);
 
-    void addPermission(Permission permission);
+    void deleteRole(String id);
+
+
+    Role editRole(com.example.demo.pojo.dto.Role role, List<String> permissionIds);
 }

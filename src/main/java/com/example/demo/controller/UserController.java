@@ -56,58 +56,15 @@ public class UserController {
         return Result.success(userService.getAllUsers());
     }
 
-    /**
-     * 添加角色
-     * @return
-     */
-    @PostMapping("/addRole")
-    @RequiresAuthentication
-    public Result<Void> addRole(@RequestBody Role role){
-        userService.addRole(role);
-        return Result.success();
+
+    @PostMapping("/roles/")
+    public Result<Role> addRole(@RequestParam String name, @RequestParam String desc) {
+        return Result.success(userService.addRole(name, desc));
     }
 
-    /**
-     * 编辑角色
-     * @return
-     */
-    @PostMapping("/editRole")
-    @RequiresAuthentication
-    public Result<Void> editRole(@RequestBody Role role){
-        userService.editRole(role);
-        return Result.success();
-    }
-
-    /**
-     * 删除角色
-     * @return
-     */
-    @PostMapping("/delRole")
-    @RequiresAuthentication
-    public Result<Void> delRole(@RequestParam Long  roleId ){
-        userService.delRole(roleId);
-        return Result.success();
-    }
-
-    /**
-     * 添加权限
-     * @return
-     */
-    @PostMapping("/addPermission")
-    @RequiresAuthentication
-    public Result<Void> addPermission(@RequestBody Permission permission){
-        userService.addPermission(permission);
-        return Result.success();
-    }
-
-    /**
-     * 删除权限
-     * @return
-     */
-    @PostMapping("/delPermission")
-    @RequiresAuthentication
-    public Result<Void> delPermission(@RequestParam Long  roleId ){
-        userService.delRole(roleId);
+    @DeleteMapping("/roles/{id}")
+    public Result<Void> deleteRole(@PathVariable String id) {
+        userService.deleteRole(id);
         return Result.success();
     }
 

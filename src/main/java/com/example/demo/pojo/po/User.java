@@ -1,6 +1,7 @@
 package com.example.demo.pojo.po;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "t_user")
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements Serializable {

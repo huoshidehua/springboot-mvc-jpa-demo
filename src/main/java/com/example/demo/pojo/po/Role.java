@@ -22,7 +22,7 @@ public class Role implements Serializable {
     private Long id; // 编号
     private String name; // 角色标识程序中判断使用,如"admin",这个是唯一的:
     private String description; // 角色描述,UI界面显示使用
-    private Boolean available = Boolean.FALSE;
+    private Boolean available;
 
     //角色 -- 权限关系：多对多关系;
     @ManyToMany(fetch = FetchType.EAGER)
