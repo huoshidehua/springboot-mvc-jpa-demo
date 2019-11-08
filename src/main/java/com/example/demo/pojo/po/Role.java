@@ -1,7 +1,9 @@
 package com.example.demo.pojo.po;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +13,8 @@ import java.util.List;
 @Entity
 @Table(name = "t_role")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Role implements Serializable {
 
     @Id

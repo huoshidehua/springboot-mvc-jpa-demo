@@ -19,11 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,23 +57,44 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional
     public void addPermission(Permission permission) {
         permissionRepository.save(permission);
     }
 
+    @Override
+    @Transactional
     public void addRole(Role role) {
         roleRepository.save(role);
     }
 
+    @Override
+    @Transactional
     public void editRole(Role role) {
-//        Role oldRole = roleRepository
-//                .findOne(Example.of(Role.builder().id(role.getId()).build()))
-//                .orElseThrow(() ->
-//                        new BusinessException(BusinessExceptionEnum.ROLE_NOT_FOUND)
-//                );
-//        oldRole.setAvailable(role.getAvailable());
-//        oldRole.setDescription(role.getDescription());
 
+
+        // 找出数据库中的 角色
+        Role oldRole = roleRepository
+                .findOne(Example.of(Role.builder().id(role.getId()).build()))
+                .orElseThrow(() ->
+                        new BusinessException(BusinessExceptionEnum.ROLE_NOT_FOUND)
+                );
+
+
+
+
+
+        oldRole.setPermissions(role.getPermissions());
+
+        roleRepository.save(oldRole);
+
+    }
+
+    @Override
+    @Transactional
+    public void delRole(Long roleId) {
+        roleRepository.deleteById(roleId);
     }
 
 

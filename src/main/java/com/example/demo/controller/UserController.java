@@ -4,6 +4,7 @@ package com.example.demo.controller;
 import com.example.demo.pojo.dto.Token;
 import com.example.demo.pojo.dto.User;
 import com.example.demo.pojo.po.Permission;
+import com.example.demo.pojo.po.Role;
 import com.example.demo.pojo.vo.Result;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +18,7 @@ import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.subject.Subject;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -56,6 +54,61 @@ public class UserController {
     @RequiresAuthentication
     public Result<List<User>> getUserList() {
         return Result.success(userService.getAllUsers());
+    }
+
+    /**
+     * 添加角色
+     * @return
+     */
+    @PostMapping("/addRole")
+    @RequiresAuthentication
+    public Result<Void> addRole(@RequestBody Role role){
+        userService.addRole(role);
+        return Result.success();
+    }
+
+    /**
+     * 编辑角色
+     * @return
+     */
+    @PostMapping("/editRole")
+    @RequiresAuthentication
+    public Result<Void> editRole(@RequestBody Role role){
+        userService.editRole(role);
+        return Result.success();
+    }
+
+    /**
+     * 删除角色
+     * @return
+     */
+    @PostMapping("/delRole")
+    @RequiresAuthentication
+    public Result<Void> delRole(@RequestParam Long  roleId ){
+        userService.delRole(roleId);
+        return Result.success();
+    }
+
+    /**
+     * 添加权限
+     * @return
+     */
+    @PostMapping("/addPermission")
+    @RequiresAuthentication
+    public Result<Void> addPermission(@RequestBody Permission permission){
+        userService.addPermission(permission);
+        return Result.success();
+    }
+
+    /**
+     * 删除权限
+     * @return
+     */
+    @PostMapping("/delPermission")
+    @RequiresAuthentication
+    public Result<Void> delPermission(@RequestParam Long  roleId ){
+        userService.delRole(roleId);
+        return Result.success();
     }
 
 }

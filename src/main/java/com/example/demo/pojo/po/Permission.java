@@ -1,6 +1,8 @@
 package com.example.demo.pojo.po;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,6 +11,8 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "t_permission")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Permission implements Serializable {
     @Id
     @GeneratedValue
