@@ -14,6 +14,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.subject.Subject;
@@ -62,8 +63,8 @@ public class UserController {
 
 
     @PostMapping("/roles/")
-    public Result<Role> addRole(@RequestParam String name, @RequestParam String desc) {
-        return Result.success(userService.addRole(name, desc));
+    public Result<Role> addRole(@RequestParam String name, @RequestParam String desc, @RequestParam String[] permissionIds) {
+        return Result.success(userService.addRole(name, desc, Arrays.asList(permissionIds)));
     }
 
 
@@ -82,11 +83,11 @@ public class UserController {
     @PutMapping("/roles/{id}")
     public Result<Role> editRole(@PathVariable String id,
                                  @RequestParam String name,
-                                 @RequestParam String description,
+                                 @RequestParam String desc,
                                  @RequestParam Boolean available,
                                  @RequestParam String[] permissionIds) {
 
-        return Result.success(userService.editRole(id, name, description, available, Arrays.asList(permissionIds)));
+        return Result.success(userService.editRole(id, name, desc, available, Arrays.asList(permissionIds)));
     }
 
     @GetMapping("/permissions/")
@@ -99,9 +100,9 @@ public class UserController {
         return Result.success(userService.addPermission(name, permission, parentId));
     }
 
-    @DeleteMapping("/permissions/")
-    public Result<Void> deletePermisstions(@RequestParam String[] ids) {
-        userService.deletePermissions(Arrays.asList(ids));
+    @DeleteMapping("/permissions/{id}")
+    public Result<Void> deletePermisstions(@PathVariable String id) {
+        userService.deletePermissions(id);
         return Result.success();
     }
 
