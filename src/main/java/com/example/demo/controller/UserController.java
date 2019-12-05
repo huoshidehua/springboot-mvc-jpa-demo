@@ -92,7 +92,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/roles/")
+    @PostMapping("/roles")
     @RequiresPermissions("role:add")
     public Result<Role> addRole(@RequestParam String name, @RequestParam String desc, @RequestParam String[] permissionIds) {
         return Result.success(userService.addRole(name, desc, Arrays.asList(permissionIds)));
@@ -106,7 +106,7 @@ public class UserController {
         return Result.success();
     }
 
-    @GetMapping("/roles/")
+    @GetMapping("/roles")
     @RequiresPermissions("role:view")
     public Result<List<com.example.demo.pojo.dto.Role>> getRoles() {
         return Result.success(userService.getRoles());
@@ -124,13 +124,13 @@ public class UserController {
         return Result.success(userService.editRole(id, name, desc, available, Arrays.asList(permissionIds)));
     }
 
-    @GetMapping("/permissions/")
+    @GetMapping("/permissions")
     @RequiresPermissions("permission:view")
     public Result<List<Permission>> getAllPermisstionsTree() {
         return Result.success(userService.getAllPermissionsTree());
     }
 
-    @PostMapping("/permissions/")
+    @PostMapping("/permissions")
     @RequiresPermissions("permission:add")
     public Result<Permission> addPermisstion(@RequestParam String name,
                                              @RequestParam String permission,
@@ -144,5 +144,25 @@ public class UserController {
     public Result<Void> deletePermisstions(@PathVariable String id) {
         userService.deletePermissions(id);
         return Result.success();
+    }
+
+    @PutMapping("/users/{userId}/ban")
+    @RequiresPermissions("user:ban")
+    public Result<User> banUser(@PathVariable String userId,@RequestParam long banDate,@RequestParam String banReason){
+        com.example.demo.pojo.po.User currentUser = (com.example.demo.pojo.po.User) SecurityUtils.getSubject().getPrincipals().getPrimaryPrincipal();
+        if (currentUser.getId().equals(userId)){
+            throw new BusinessException(BusinessExceptionEnum.USER_CAN_NOT_BAN_SELF);
+        }
+        return Result.success(userService.ban(userId,banReason,banDate));
+    }
+
+    @PutMapping("/users/{userId}/unban")
+    @RequiresPermissions("user:unban")
+    public Result<User> unbanUser(@PathVariable String userId){
+        com.example.demo.pojo.po.User currentUser = (com.example.demo.pojo.po.User) SecurityUtils.getSubject().getPrincipals().getPrimaryPrincipal();
+        if (currentUser.getId().equals(userId)){
+            throw new BusinessException(BusinessExceptionEnum.USER_CAN_NOT_UNBAN_SELF);
+        }
+        return Result.success(userService.unban(userId));
     }
 }

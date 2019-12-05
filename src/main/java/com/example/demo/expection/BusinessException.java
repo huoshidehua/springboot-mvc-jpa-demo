@@ -1,6 +1,5 @@
 package com.example.demo.expection;
 
-import jdk.nashorn.internal.objects.annotations.Constructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -20,6 +19,9 @@ public class BusinessException extends RuntimeException {
 
     public BusinessException(BusinessExceptionEnum exceptionEnum) {
         this(exceptionEnum.code, exceptionEnum.message);
+    }
+    public BusinessException(BusinessExceptionEnum exceptionEnum,String exceptinoMessage) {
+        this(exceptionEnum.code, String.format("%s: %s",exceptionEnum.message,exceptinoMessage));
     }
 
     public BusinessException(BusinessExceptionEnum exceptionEnum, Object data) {
